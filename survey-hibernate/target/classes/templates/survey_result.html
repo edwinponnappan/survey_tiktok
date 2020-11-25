@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Survey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link th:href="@{/css/common.css}" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Just an image -->
+	<nav class="navbar navbar-dark bg-primary">
+	  <a class="navbar-brand" href="#">
+	    <h3><i class="fab fa-angellist"> Easy survey → Survey Result</i></h3>
+	  </a>
+	</nav>
+
+    <div class="container my-5">
+    	<div class="row form-group">
+    		<div class="col-md-9">
+    			<h3 class="col-md-1 float-left">Title: </h3>
+    			<input type="hidden" th:value="${surveyResults.titleId}" id="titleId" />
+    			<h3 th:text="${surveyResults.title}" id="title" class="col-md-10 float-left"></h3>
+    		</div>
+    		<div class="col-md-3 text-right">
+   				<a th:href="@{/survey_title}" class="btn btn-primary">
+               	<i class="fas fa-chalkboard ml-2"> Back to Survey List</i></a>
+    		</div>
+    	</div>
+        <div class="card">
+            <div class="card-body">
+                <div id="question-div" class="col-md-10">
+                	<div class="card question-content" th:each="question,stat : ${surveyResults.questionList}">
+						  <div class="card-header">
+						  	<div class="row">
+							  	<h5 class="col-md-2 col-form-label text-right question-head" th:text="${'Question'+(stat.index+1)+ ' : '}">Question :</h5>
+							  	<div class="col-md-10">
+	                               	<label th:text="${question.question}" class="question-input form-control"></label>
+	                           	</div>
+						  	</div>
+						  </div>
+						  <div class="card-body">
+						    <div th:each="option,stat : ${question.optionList}" class="form-check">
+						    	<div class="progress form-group">
+								  <div class="progress-bar" role="progressbar" th:style="${'color:black; width: '+option.result.size()+'%'}" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100" th:text="${option.optionName+'→ [ '+option.result.size()+' ] '}"></div>
+								</div>
+<!-- 								  <input class="form-check-input" type="radio" name="exampleRadios" th:id="${'exampleRadios'+stat.index}" th:value="${option.optionId}"> -->
+<!-- 								  <label class="form-check-label" th:for="${'exampleRadios'+stat.index}" th:text="${option.optionName}"></label> -->
+                            </div>
+				  		  </div>
+					</div>
+                  </div>
+              </div>
+              <div class="row justify-content-center">
+                    <input type="button" class="btn btn-primary btn-lg" value="Submit" id="submit">
+              </div>
+         </div>
+     </div>
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/question.js}"></script>
+</html>

@@ -1,0 +1,13 @@
+.pad-left{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.pad-center{
+	padding-left: 10px !important;
+    padding-right: 16px !important;
+}
+
+.float-left{
+	float: left;
+}

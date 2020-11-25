@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Questions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link th:href="@{/css/common.css}" rel="stylesheet">
+</head>
+
+<body>
+	<nav class="navbar navbar-dark bg-primary">
+	  <a class="navbar-brand" href="#">
+	    <h3><i class="fab fa-angellist"th:text="${(titleQuestions.titleId == null)? 'Easy survey  → Survey Register' : 'Easy survey  → Survey Edit'}"></i></h3>
+	  </a>
+	</nav>
+    <div class="container my-5">
+    	<div id="msg-div"></div>
+    	<div class="row form-group">
+    		<div class="col-md-8">
+    			<h3 class="col-md-2 float-left">Title: </h3>
+    			<input type="hidden" th:value="${titleQuestions.titleId}" id="titleId" />
+    			<input type="text" th:value="${titleQuestions.title}" id="title" class="form-control col-md-10 float-left"/>
+    		</div>
+    		<div class="col-md-4 text-right">
+    			<div class="row">
+	    			<div class="col-md-6">
+	    				<a th:href="@{/survey_title}" class="btn btn-primary">
+	                	<i class="fas fa-chalkboard ml-2"> Back to Survey List</i></a>
+	    			</div>
+	    			<div class="col-md-6">
+	    				<a href="#" class="btn btn-primary" id="add-question">
+	         			<i class="fas fa-bullhorn ml-2"> Add Question </i></a>
+	    			</div>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card">
+            <div class="card-body">
+                <div id="question-div" class="col-md-10">
+                	<div class="card question-content" th:each="question,stat : ${titleQuestions.questionList}">
+						  <div class="card-header">
+						  	<div class="row">
+							  	<h5 class="col-md-2 col-form-label text-right question-head" th:text="${'Question'+(stat.index+1)+ ' : '}">Question :</h5>
+							  	<div class="col-md-9">
+	                               	<input type="text" th:value="${question.question}" class="question-input form-control"/>
+	                           	</div>
+	                           	<div class="col-md-1">
+	                               	<a href="#" class="btn btn-danger ml-2 question-del"><i class="fas fa-times"></i></a>
+	                           	</div>
+						  	</div>
+						  </div>
+						  <div class="card-body">
+						    <label class="card-title">Options :</label>
+						    <div th:each="option : ${question.optionList}" class="form-group">
+                               	<input type="text" th:value="${option.optionName}" class="option-input form-control col-md-11 offset-md-1"/>
+                            </div>
+                            <div  th:if="${question.optionList.size() < 4}" th:each="i : ${#numbers.sequence(question.optionList.size(), 3)}" class="form-group">
+                               <input type="text" class="option-input form-control col-md-11 offset-md-1"/>
+                            </div>
+						  </div>
+					</div>
+					<div class="card question-content" th:if="${#arrays.isEmpty(titleQuestions.questionList)}">
+						  <div class="card-header">
+						  	<div class="row">
+							  	<h5 class="col-md-2 col-form-label text-right question-head">Question1 :</h5>
+							  	<div class="col-md-9">
+	                               	<input type="text" class="question-input form-control"/>
+	                           	</div>
+	                           	<div class="col-md-1">
+	                               	<a class="btn btn-danger ml-2 question-del"><i class="fas fa-times"></i></a>
+	                           	</div>
+						  	</div>
+						  </div>
+						  <div class="card-body">
+						    <label class="card-title">Options :</label>
+						    <div th:each="i : ${#numbers.sequence(0, 3)}" class="form-group">
+                               	<input type="text" class="option-input form-control col-md-11 offset-md-1"/>
+                            </div>
+						  </div>
+					</div>
+                  </div>
+              </div>
+              <div class="row justify-content-center">
+                    <input type="button" class="btn btn-primary btn-lg" value="Submit" id="submit">
+              </div>
+         </div>
+     </div>
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/question.js}"></script>
+</html>
